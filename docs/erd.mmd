@@ -1,0 +1,68 @@
+erDiagram
+  users ||--o{ user_roles : has
+  roles ||--o{ user_roles : grants
+  users ||--o{ sessions : authenticates
+
+  users ||--o{ courses : teaches
+  courses ||--o{ course_prerequisites : requires
+  courses ||--o{ course_enrollments : enrolls
+  users ||--o{ course_enrollments : participates
+
+  courses ||--o{ lessons : contains
+  lessons ||--o{ lesson_materials : has
+  users ||--o{ lesson_progress : tracks
+  lessons ||--o{ lesson_progress : tracked_by
+
+  courses ||--o{ assessments : has
+  assessments ||--o{ assessment_questions : contains
+  assessment_questions ||--o{ question_options : has
+  assessments ||--o{ assessment_attempts : attempted_by
+  users ||--o{ assessment_attempts : makes
+
+  courses ||--o{ certificates : certifies
+  users ||--o{ certificates : receives
+
+  courses ||--o{ live_classes : schedules
+  live_classes ||--o{ live_class_registrations : receives
+  users ||--o{ live_class_registrations : registers
+  live_classes ||--o{ live_class_attendance : tracks
+  users ||--o{ live_class_attendance : attends
+
+  courses ||--o{ messages : contextualizes
+  users ||--o{ messages : sends
+  users ||--o{ messages : receives
+
+  courses ||--o{ comments : has
+  lessons ||--o{ comments : has
+  users ||--o{ comments : writes
+
+  users {
+    uuid id PK
+    string name
+    string email UK
+    string avatar_url
+    string auth_provider
+    boolean active
+    datetime created_at
+  }
+
+  roles {
+    int id PK
+    string code UK
+  }
+
+  user_roles {
+    uuid user_id FK
+    int role_id FK
+  }
+
+  courses {
+    uuid id PK
+    string title
+    text description
+    uuid teacher_id FK
+    int workload_hours
+    string cover_image_url
+    boolean is_active
+    datetime created_at
+  }
