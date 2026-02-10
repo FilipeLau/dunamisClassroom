@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: Dunamis EAD API
+  version: 1.0.0
+  description: API principal da plataforma EAD Dunamis.
+servers:
+  - url: https://api.dunamis.app/v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Course:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        description: { type: string }
+        teacherId: { type: string, format: uuid }
+        workloadHours: { type: integer }
+paths:
+  /auth/google:
+    get:
+      summary: Inicia fluxo OAuth com Google
+  /auth/google/callback:
+    get:
+      summary: Callback OAuth
+  /auth/refresh:
+    post:
+      summary: Renova access token
+  /me:
+    get:
+      summary: Perfil do usuário autenticado
+      security: [{ bearerAuth: [] }]
+
+  /courses:
+    get:
+      summary: Lista cursos visíveis para o usuário
+      security: [{ bearerAuth: [] }]
+    post:
+      summary: Cria curso (teacher/admin)
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}:
+    get:
+      summary: Detalhes do curso
+      security: [{ bearerAuth: [] }]
+    patch:
+      summary: Edita curso
+      security: [{ bearerAuth: [] }]
+    delete:
+      summary: Remove/desativa curso
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}/enrollments:
+    post:
+      summary: Inscreve aluno no curso
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}/lessons:
+    get:
+      summary: Lista aulas do curso em ordem
+      security: [{ bearerAuth: [] }]
+    post:
+      summary: Cria aula (teacher/admin)
+      security: [{ bearerAuth: [] }]
+
+  /lessons/{lessonId}/progress:
+    put:
+      summary: Atualiza progresso de vídeo
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}/assessments:
+    get:
+      summary: Lista avaliações do curso
+      security: [{ bearerAuth: [] }]
+    post:
+      summary: Cria avaliação
+      security: [{ bearerAuth: [] }]
+
+  /assessments/{assessmentId}/attempts:
+    post:
+      summary: Submete tentativa
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}/certificate:
+    get:
+      summary: Retorna certificado do aluno (se elegível)
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}/messages:
+    get:
+      summary: Lista conversas por curso
+      security: [{ bearerAuth: [] }]
+    post:
+      summary: Envia mensagem privada
+      security: [{ bearerAuth: [] }]
+
+  /courses/{courseId}/comments:
+    get:
+      summary: Lista comentários
+      security: [{ bearerAuth: [] }]
+    post:
+      summary: Cria comentário
+      security: [{ bearerAuth: [] }]
+
+  /live-classes:
+    post:
+      summary: Cria aula ao vivo
+      security: [{ bearerAuth: [] }]
+  /live-classes/{liveClassId}/registrations:
+    post:
+      summary: Inscrição de aluno na aula ao vivo
+      security: [{ bearerAuth: [] }]
+
+  /reports/teacher/courses/{courseId}:
+    get:
+      summary: Relatório do professor por curso
+      security: [{ bearerAuth: [] }]
+  /reports/admin/overview:
+    get:
+      summary: Relatório global da plataforma
+      security: [{ bearerAuth: [] }]
